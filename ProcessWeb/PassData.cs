@@ -29,3 +29,33 @@ namespace ProcessWeb
         private void NotifyDataChanged() => OnChange?.Invoke();
     }
 }
+
+public class SingletonService 
+{
+    public Guid ServiceId { get; set; }
+
+    public SingletonService()
+    {
+        ServiceId = Guid.NewGuid();
+    }
+}
+
+public class ScopedService 
+{
+    public Guid ServiceId { get; set; }
+
+    public ScopedService()
+    {
+        ServiceId = Guid.NewGuid();
+    }
+}
+
+public class TransientService 
+{
+    public Guid ServiceId { get; set; }
+
+    public TransientService()
+    {
+        ServiceId = Guid.NewGuid();
+    }
+}

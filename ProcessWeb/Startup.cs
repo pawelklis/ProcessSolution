@@ -32,8 +32,12 @@ namespace ProcessWeb
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
             services.AddScoped<UserState>();
-            //services.AddScoped<PassData>();//scoped for server side
-            services.AddSingleton<PassData>();//scoped for client side
+            services.AddScoped<PassData>();//scoped for server side
+            //services.AddSingleton<PassData>();//scoped for client side
+
+            services.AddSingleton<SingletonService>();
+            services.AddTransient<TransientService>();
+            services.AddScoped<ScopedService>();
 
 
             #region Connection String

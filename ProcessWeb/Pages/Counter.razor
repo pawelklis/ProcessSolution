@@ -1,8 +1,21 @@
 ﻿@page "/counter"
-
+@inject UserState user
 @inject PassData pd
- 
+@inject NavigationManager UriHelper
+@inject SingletonService singletonService
+@inject ScopedService scopedService
+@inject TransientService transientService
 <h1>Counter</h1>
+
+<div class="row">
+    <div class="col-md-12">
+        <ul>
+            <li>Singleton Service - @singletonService.ServiceId</li>
+            <li>Scoped Service - @scopedService.ServiceId</li>
+            <li>Transient Service - @transientService.ServiceId</li>
+        </ul>
+    </div>
+</div>
 
 <p>Current count: @currentCount  </p>
 <p>Current count: @pd.increment</p>
@@ -22,9 +35,15 @@
     [Parameter]
     public Employee em { get; set; }
 
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (user.userLogin == null)
+            UriHelper.NavigateTo("/loginpage");
+    }
 
     protected override void OnInitialized()
     {
+
 
         pd.OnChange += MyEventHandler;
 
@@ -44,7 +63,7 @@
     private void MyEventHandler()
     {
         currentCount = pd.increment;
-       
+
     }
 
     private int currentCount = 0;

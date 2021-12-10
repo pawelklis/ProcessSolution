@@ -17,6 +17,8 @@ public class AppDBContext : DbContext
     {
         string mySqlConnectionStr = "Server=localhost;Database=blazcor;Uid=root;Pwd=mayday1";
         options.UseMySql(mySqlConnectionStr, ServerVersion.AutoDetect(mySqlConnectionStr));
+   
+
     }
 
 
@@ -24,7 +26,10 @@ public class AppDBContext : DbContext
     {
         Entities.Add(tblEmployee);
         Entities.Add(employeedetails);
+
+       
     }
+
 
     public List<object> Entities = new List<object>();
 
@@ -163,7 +168,7 @@ public class EmployeeDataAccessLayer
                         else
                         {
                             if (!p.PropertyType.IsValueType && p.PropertyType!=typeof(string))
-                                db.Entry(p.GetValue(o)).State = stateOfObject;
+                                SetObjectDBState(p.GetValue(o));
                             else
                                 db.Entry(o).State = stateOfObject;
                         }

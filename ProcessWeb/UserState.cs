@@ -9,6 +9,7 @@ namespace ProcessWeb
     {
 
         public string userLogin { get; set; }
+        public string password { get; set; }
 
     }
 }

@@ -101,9 +101,15 @@ else
                 <tr>
                     <td>
                         <input @bind="@em.Name" @bind:event="oninput" @onchange="()=>Save(em)">
+
                         @if (em.Address != null)
                         {
                             <input @bind="@em.Address.Name" @bind:event="oninput" @onchange="()=>Save(em)">
+                            <input type="button" value="-" @onclick="() => { em.Address = null; Save(em); deleteAdres(em); }">
+                        }
+                        else
+                        {
+                            <input type="button" value="+" @onclick="() => { em.Address = new Address(); Save(em); }">
                         }
 
                     </td>
@@ -155,14 +161,11 @@ else
 
 
 
- 
+
 
     protected override void OnInitialized()
     {
-        if (user.userLogin != null)
-        {
-            Employees[0].Name = user.userLogin;
-        }
+
         pd.OnChange += StateHasChanged;
     }
 
@@ -180,7 +183,12 @@ else
         el.RemovetObject<EmployeeDetails>(ed);
         Bind();
     }
-
+    void deleteAdres(Employee em)
+    {
+        EmployeeDataAccessLayer el = new EmployeeDataAccessLayer();
+        el.RemovetObject<Address>(em.Address);
+        Bind();
+    }
     void Save(Employee em)
     {
         EmployeeDataAccessLayer el = new EmployeeDataAccessLayer();

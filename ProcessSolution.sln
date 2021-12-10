@@ -9,11 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProcessSolutionCore", "Proc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProcessWeb", "ProcessWeb\ProcessWeb.csproj", "{7298989D-9FFD-49D6-97B4-A73777B42B75}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "clientsideapp", "clientsideapp\clientsideapp.csproj", "{947F9F95-9F53-4B40-A13D-48B37DCAA583}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "clientsideapp", "clientsideapp\clientsideapp.csproj", "{947F9F95-9F53-4B40-A13D-48B37DCAA583}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "blazorwithuser", "blazorwithuser\blazorwithuser.csproj", "{FB6F8CEB-1BF5-477C-9C83-78CB6420102E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "blazorwithuser", "blazorwithuser\blazorwithuser.csproj", "{FB6F8CEB-1BF5-477C-9C83-78CB6420102E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp1", "BlazorApp1\BlazorApp1.csproj", "{B26591CB-9257-4B50-B451-1633AD1296D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorApp1", "BlazorApp1\BlazorApp1.csproj", "{B26591CB-9257-4B50-B451-1633AD1296D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

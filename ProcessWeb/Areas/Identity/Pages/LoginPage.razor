@@ -1,0 +1,28 @@
+﻿@page "/loginpage"
+@inject UserState user
+@inject NavigationManager UriHelper
+@layout EmptyLayout
+
+<h3>HtmlSnippet</h3>
+
+
+<h3>loginPage</h3>
+
+
+<input type="text" placeholder="login" @bind="user.userLogin" />
+<input type="password" placeholder="hasło" @bind="user.password" />
+
+<input type="button" value="Login" @onclick="Login" />
+
+@code {
+    void Login()
+    {
+
+        //user = new UserState();
+        user.userLogin = Guid.NewGuid().ToString();
+
+        UriHelper.NavigateTo("/counter/");
+
+
+    }
+}
