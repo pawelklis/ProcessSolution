@@ -1,0 +1,31 @@
+﻿
+
+<h3>AddEmployee</h3>
+
+
+
+<input type="button" @onclick="AddEmploye" />
+
+
+@code {
+
+    [Parameter]
+    public EventCallback OnUpdated { get; set; }
+
+
+    protected void AddEmploye()
+    {
+
+
+
+        EmployeeDataAccessLayer el = new EmployeeDataAccessLayer();
+        //el.AddEmployee(new Employee() { Name = "test_X", Gender="male", City="c", Department="dep" });
+        el.UpdateObject<Employee>(new Employee() { Name = "test_X", Gender = "male", City = "c", Department = "dep" });
+
+
+
+        OnUpdated.InvokeAsync(null);
+
+    }
+
+}

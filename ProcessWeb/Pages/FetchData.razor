@@ -1,0 +1,210 @@
+﻿@page "/fetchdata"
+@inject UserState user
+@using ProcessWeb.Data
+@using System.Reflection
+@inject WeatherForecastService ForecastService
+@inject PassData pd 
+
+
+<input type="number" @bind="pd.increment" />
+<a @onclick="OpenCounter" href="/counter">Go to Page 2</a>
+
+@code {
+    void OpenCounter(){
+        pd.emp = Employees[0];
+       //pd.increment = 9999;
+
+
+    }
+}
+
+<p>@user.userLogin</p>
+<h1>Weather forecast</h1>
+
+<p>This component demonstrates fetching data from a service.</p>
+
+@if (forecasts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Temp. (C)</th>
+                <th>Temp. (F)</th>
+                <th>Summary</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var forecast in forecasts)
+            {
+                <tr>
+                    <td>@forecast.Date.ToShortDateString()</td>
+                    <td>@forecast.TemperatureC</td>
+                    <td>@forecast.TemperatureF</td>
+                    <td>@forecast.Summary</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @if (showmodal == true)
+    {
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50% -50%);background-color:red;">
+            <Counter em="@modalEm"></Counter>
+        </div>
+
+    }
+    else
+    {
+
+    }
+
+    <input type="button" @onclick="ShowHide" value="Modal" />
+
+    @code{
+        Employee modalEm { get; set; }
+        bool showmodal { get; set; }
+
+        void ShowHide()
+        {
+            if (showmodal == true)
+            {
+                showmodal = false;
+                modalEm = null;
+            }
+
+            else
+                showmodal = true;
+        }
+
+    }
+
+
+    <AddEmployee OnUpdated="@Bind"></AddEmployee>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>City</th>
+                <th>Department</th>
+                <th>Gender</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Employee em in Employees)
+            {
+                <tr>
+                    <td>
+                        <input @bind="@em.Name" @bind:event="oninput" @onchange="()=>Save(em)">
+                        @if (em.Address != null)
+                        {
+                            <input @bind="@em.Address.Name" @bind:event="oninput" @onchange="()=>Save(em)">
+                        }
+
+                    </td>
+                    <td>
+                        <input @bind="@em.City" @bind:event="oninput" @onchange="()=>Save(em)">
+                    </td>
+                    <td>
+                        <input style="width:50px;" @bind="@em.Department" @bind:event="oninput" @onchange="()=>Save(em)">
+                    </td>
+                    <td>
+                        <input @bind="@em.Gender" @bind:event="oninput" @onchange="()=>Save(em)">
+                    </td>
+                    <td>
+                        <input type="button" @onclick="()=> { em.Details.Add(new EmployeeDetails());Save(em); Bind(); }" value="adddetail" />
+                        <table>
+                            <tbody>
+                                @foreach (EmployeeDetails ed in em.Details)
+                                {
+                                    <tr>
+                                        <td> <input @bind="@ed.Name" @bind:event="oninput" @onchange="()=>Save(em)"></td>
+                                        <td> <input @bind="@ed.Value" @bind:event="oninput" @onchange="()=>Save(em)"></td>
+                                        <td><input type="button" value="usuń" @onclick="()=>deleteDetail(ed)" /> </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </td>
+                    <td><input type="button" value="usuń" @onclick="()=>delete(em)" /> </td>
+                    <td><input type="button" value="modal" @onclick="() => { modalEm = em; ShowHide(); } " /> </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+
+}
+
+@code {
+    private WeatherForecast[] forecasts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Bind();
+
+
+
+    }
+
+
+
+ 
+
+    protected override void OnInitialized()
+    {
+        if (user.userLogin != null)
+        {
+            Employees[0].Name = user.userLogin;
+        }
+        pd.OnChange += StateHasChanged;
+    }
+
+    void delete(Employee em)
+    {
+        EmployeeDataAccessLayer el = new EmployeeDataAccessLayer();
+        //el.DeleteEmployee(em.EmployeeId);
+        el.RemovetObject<Employee>(em);
+        Bind();
+    }
+    void deleteDetail(EmployeeDetails ed)
+    {
+        EmployeeDataAccessLayer el = new EmployeeDataAccessLayer();
+        //el.DeleteEmployee(em.EmployeeId);
+        el.RemovetObject<EmployeeDetails>(ed);
+        Bind();
+    }
+
+    void Save(Employee em)
+    {
+        EmployeeDataAccessLayer el = new EmployeeDataAccessLayer();
+        //el.UpdateEmployee(em);
+        el.UpdateObject<Employee>(em);
+
+        if (user.userLogin != null)
+        {
+            Employees[0].Name = user.userLogin;
+        }
+    }
+
+    protected async Task Bind()
+    {
+        forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+
+
+
+        EmployeeDataAccessLayer el = new EmployeeDataAccessLayer();
+        //Employees = el.GetAllEmployees().ToArray();
+        Employees = el.GetAllObject<Employee>(new string[] { "Details", "Address" }).ToArray();
+    }
+
+    private Employee[] Employees;
+
+
+}

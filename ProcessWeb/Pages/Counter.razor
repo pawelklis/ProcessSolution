@@ -1,0 +1,56 @@
+﻿@page "/counter"
+
+@inject PassData pd
+ 
+<h1>Counter</h1>
+
+<p>Current count: @currentCount  </p>
+<p>Current count: @pd.increment</p>
+
+<input type="number" @bind="pd.increment" />
+
+@if (em != null)
+{
+    <h2>@em?.Name</h2>
+}
+
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+@code {
+
+    [Parameter]
+    public Employee em { get; set; }
+
+
+    protected override void OnInitialized()
+    {
+
+        pd.OnChange += MyEventHandler;
+
+        if (pd != null)
+        {
+            if (pd.increment != null)
+                currentCount = pd.increment;
+            if (pd.emp != null)
+                em = pd.emp;
+        }
+    }
+
+
+
+
+
+    private void MyEventHandler()
+    {
+        currentCount = pd.increment;
+       
+    }
+
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+}

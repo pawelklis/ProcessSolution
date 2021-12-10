@@ -1,0 +1,38 @@
+﻿@inherits LayoutComponentBase
+@inject UserState user
+
+<div class="sidebar">
+    <NavMenu />
+</div>
+
+<div class="main" >
+    <div class="top-row px-4">
+        <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+    </div>
+
+    <div class="content px-4">
+        @Body
+    </div>
+
+    @code{
+
+
+        protected override void OnInitialized()
+        {
+            checkuser();
+           
+        }
+
+        void checkuser()
+        {
+            @if (user.userLogin == null)
+            {
+                user = new UserState();
+                user.userLogin = "userLogin";
+            }
+        }
+
+    }
+
+
+</div>
